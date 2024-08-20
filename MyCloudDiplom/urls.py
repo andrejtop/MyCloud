@@ -17,6 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from mycloud.views.auth_view import me_view, get_csrf_token, logout_view, login_view
+from mycloud.views.user_view import RegistrUserView, delete_user, get_detail_user_list
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('api/auth/login/', login_view),
+    path('api/auth/logout/', logout_view),
+    path('api/auth/get_csrf/', get_csrf_token),
+    path('api/auth/me/', me_view),
+    path('api/detail_users_list/', get_detail_user_list),
+    path('api/delete_user/<int:user_id>/', delete_user),
+    path('api/registr/', RegistrUserView.as_view()),
 ]
