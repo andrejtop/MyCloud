@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 
 from mycloud.views.auth_view import me_view, get_csrf_token, logout_view, login_view
+from mycloud.views.file_transfer_view import get_link, get_file
+from mycloud.views.file_views import FileView
 from mycloud.views.user_view import RegistrUserView, delete_user, get_detail_user_list
 
 urlpatterns = [
@@ -28,4 +30,7 @@ urlpatterns = [
     path('api/detail_users_list/', get_detail_user_list),
     path('api/delete_user/<int:user_id>/', delete_user),
     path('api/registr/', RegistrUserView.as_view()),
+    path('api/files/', FileView.as_view()),
+    path('api/link/', get_link),
+    path('api/link/<str:link>/', get_file),
 ]
