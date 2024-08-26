@@ -14,8 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
+
+from django.urls import path, include
 
 from mycloud.views.auth_view import me_view, get_csrf_token, logout_view, login_view
 from mycloud.views.file_transfer_view import get_link, get_file
@@ -33,4 +33,5 @@ urlpatterns = [
     path('api/files/', FileView.as_view()),
     path('api/link/', get_link),
     path('api/link/<str:link>/', get_file),
+    path('', include('frontend.urls')),
 ]
