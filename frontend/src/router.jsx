@@ -3,6 +3,10 @@ import React from 'react';
 import {
   BrowserRouter as Router, Route, Routes,
 } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ToastContainer } from 'react-toastify';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'react-toastify/dist/ReactToastify.css';
 import StartPage from './components/StartPage/StartPage';
 import Header from './components/Header/Header';
 import SignUpForm from './components/AuthForms/SignUpForm';
@@ -15,6 +19,7 @@ function App() {
   return (
     <Router>
       <Header />
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<StartPage />} />
         <Route path="/sign-up" element={<SignUpForm />} />

@@ -1,9 +1,34 @@
 import Cookies from 'js-cookie';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { toast } from 'react-toastify';
 
 export const BASE_URL = 'http://127.0.0.1:8000/api/';
 
+function handleErrors(response) {
+  if (!response.ok) {
+    return response.json().then((err) => {
+      throw new Error(err.error || 'Something went wrong!');
+    });
+  }
+  return response;
+}
+
+function notifyError(error) {
+  toast.error(error.message || 'Failed to fetch data from API.', {
+    position: 'top-right',
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+}
+
 export function getCsrfCookie() {
-  return fetch(`${BASE_URL}auth/get_csrf/`);
+  return fetch(`${BASE_URL}auth/get_csrf/`)
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function logIn(email, password) {
@@ -18,7 +43,9 @@ export function logIn(email, password) {
       email,
       password,
     }),
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function logOut() {
@@ -29,7 +56,9 @@ export function logOut() {
       'X-CSRFToken': Cookies.get('csrftoken'),
       cookie: `sessionid=${Cookies.get('sessionid')}`,
     },
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function userMe() {
@@ -40,7 +69,9 @@ export function userMe() {
       'Content-Type': 'application/json',
       cookie: `sessionid=${Cookies.get('sessionid')}`,
     },
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function getUserList() {
@@ -49,22 +80,26 @@ export function getUserList() {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function deleteUser(id) {
-  return fetch(`${BASE_URL}delete_user/${id}/`, {
+  return fetch(`${BASE_URL}detail_users_list/${id}/`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'X-CSRFToken': Cookies.get('csrftoken'),
       cookie: `sessionid=${Cookies.get('sessionid')}`,
     },
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function patchUser(id, isStaff) {
-  return fetch(`${BASE_URL}auth/users/${id}/`, {
+  return fetch(`${BASE_URL}detail_users_list/${id}/`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -74,7 +109,9 @@ export function patchUser(id, isStaff) {
     body: JSON.stringify({
       is_staff: isStaff,
     }),
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function signUp(data) {
@@ -84,7 +121,9 @@ export function signUp(data) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function postFile(data) {
@@ -95,7 +134,9 @@ export function postFile(data) {
       cookie: `sessionid=${Cookies.get('sessionid')}`,
     },
     body: data,
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function getFiles() {
@@ -104,16 +145,20 @@ export function getFiles() {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function getUserFiles(userId) {
-  return fetch(`${BASE_URL}files/?user_id=${userId}`, {
+  return fetch(`${BASE_URL}files/${userId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function patchFile(data, userStorageId = null) {
@@ -131,7 +176,9 @@ export function patchFile(data, userStorageId = null) {
       cookie: `sessionid=${Cookies.get('sessionid')}`,
     },
     body: JSON.stringify(data),
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function deleteFile(id, userStorageId = null) {
@@ -147,23 +194,29 @@ export function deleteFile(id, userStorageId = null) {
       'X-CSRFToken': Cookies.get('csrftoken'),
       'Content-Type': 'application/json',
     },
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function downloadFile(id) {
-  return fetch(`${BASE_URL}link/${id}/`, {
+  return fetch(`${BASE_URL}files/${id}/`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
 
 export function getDownloadLink(id) {
-  return fetch(`${BASE_URL}link/?file_id=${id}`, {
+  return fetch(`${BASE_URL}files/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  })
+    .then(handleErrors)
+    .catch(notifyError);
 }
