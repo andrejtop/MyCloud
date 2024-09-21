@@ -247,7 +247,7 @@ export async function deleteFile(id, userStorageId = null) {
 
 export async function downloadFile(id) {
   try {
-    const response = await fetch(`${BASE_URL}files/${id}/`, {
+    const response = await fetch(`${BASE_URL}link/${id}/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -262,7 +262,7 @@ export async function downloadFile(id) {
 
 export async function getDownloadLink(id) {
   try {
-    const response = await fetch(`${BASE_URL}files/${id}`, {
+    const response = await fetch(`${BASE_URL}link/?file_id=${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
