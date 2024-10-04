@@ -1,6 +1,5 @@
 # Дипломный проект профессии «Fullstack-разработчик на Python»
-<h3>Views</h3>
-<img src="https://profile-counter.glitch.me/jwt/count.svg">
+
 
 ## ☁️ Облачное хранилище «MyCloud»
 
